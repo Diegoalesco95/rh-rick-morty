@@ -33,11 +33,13 @@
 .dark {
   color: var(--secondary);
   background-color: var(--primary);
+  transition: all 300ms ease-in;
 }
 
 .light {
   color: var(--primary);
   background-color: var(--secondary);
+  transition: all 300ms ease-in;
 }
 
 .button-mode {
@@ -48,12 +50,13 @@
   border: none;
 }
 
-.Characters {
+.Favorites-list,
+.Characters-list {
   margin: 0 auto;
-  padding: 2rem 0;
+  padding: 4rem 0;
   display: grid;
   grid-template-columns: 1fr;
-  gap: 2rem;
+  gap: 10rem 0;
   justify-items: center;
 }
 
@@ -67,6 +70,10 @@
   background-color: var(--secondary);
   overflow: hidden;
   cursor: pointer;
+}
+
+.character:hover {
+  transform: rotate(0deg);
 }
 
 .character__image img {
@@ -109,13 +116,25 @@
 
 .character__information--heading {
   margin-bottom: 1rem;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.save-favorite {
+  border: none;
 }
 
 .character__information--heading h2 {
   margin: 0;
+}
+
+.save-favorite {
+  color: red;
+  background-color: transparent;
+}
+
+.save-favorite:hover {
+  cursor: pointer;
 }
 
 .character__information--row {
@@ -142,7 +161,8 @@
 }
 
 @media (min-width: 768px) {
-  .Characters {
+  .Favorites-list,
+  .Characters-list {
     grid-template-columns: repeat(2, 1fr);
   }
 
@@ -152,7 +172,15 @@
 }
 
 @media (min-width: 1024px) {
-  .Characters {
+  .Favorites-list,
+  .Characters-list {
     grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (min-width: 1200px) {
+  .character {
+    transition: all 300ms ease-in;
+    transform: rotate(15deg);
   }
 }

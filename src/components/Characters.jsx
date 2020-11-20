@@ -1,7 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useReducer } from 'react';
 
-const Characters = ({ isDark }) => {
+import { initialState, favoriteReducer } from '../context/FavoritesReducer';
+
+import Card from './Card';
+
+const Characters = () => {
   const [characters, setCharacters] = useState([]);
+  const [state, dispatch] = useReducer(favoriteReducer, initialState);
+  const { favorites } = state;
 
   useEffect(() => {
     fetch('https://rickandmortyapi.com/api/character/')
@@ -9,45 +15,69 @@ const Characters = ({ isDark }) => {
       .then((data) => setCharacters(data.results));
   }, []);
 
+  const isFavorite = (favorite) => {
+    return favorites.includes(favorite);
+  };
+
+  const deleteFavorite = (index) => {
+    const newFavorites = favorites;
+    newFavorites.splice(index, 1);
+    return newFavorites;
+  };
+
+  const findFavoriteIndex = (favorite) => {
+    const index = favorites.findIndex((elm) => elm.id === favorite.id);
+    if (index > -1) {
+      return deleteFavorite(index);
+    } else {
+      return index;
+    }
+  };
+
+  const handlerClick = (favorite) => {
+    if (isFavorite(favorite)) {
+      dispatch({
+        type: 'DELETE_FAVORITE',
+        payload: findFavoriteIndex(favorite)
+      });
+    } else {
+      dispatch({ type: 'ADD_TO_FAVORITE', payload: favorite });
+    }
+  };
+
   return (
-    <div className='Characters'>
-      {characters.map((character) => (
-        <div key={character.id} className='character'>
-          <div className='character__image'>
-            <img
-              src={character.image}
-              alt={character.name}
-              loading='lazy'
-              width='300px'
-              height='300px'
+    <>
+      <section className='Favorites'>
+        <h1>Favorites</h1>
+        {state.favorites.length > 0 ? (
+          <div className='Favorites-list'>
+            {favorites.map((favorite) => (
+              <Card
+                character={favorite}
+                key={`f-${favorite.id}`}
+                handlerClick={handlerClick}
+                isFavorite={isFavorite(favorite)}
+              />
+            ))}
+          </div>
+        ) : (
+          <p>There are no favorites yet</p>
+        )}
+      </section>
+      <section className='Characters'>
+        <h1>Characters</h1>
+        <div className='Characters-list'>
+          {characters.map((character) => (
+            <Card
+              character={character}
+              key={character.id}
+              handlerClick={handlerClick}
+              isFavorite={isFavorite(character)}
             />
-          </div>
-          <div className='character__information'>
-            <div className='character__information--heading'>
-              <h2 className='character__title'>{character.name}</h2>
-            </div>
-            <div className='character__information--row'>
-              <h3 className='character__title'>Specie:</h3>
-              <small className='character__desciption'>
-                {character.species}
-              </small>
-            </div>
-            <div className='character__information--row'>
-              <h3 className='character__title'>Gender:</h3>
-              <small className='character__desciption'>
-                {character.gender}
-              </small>
-            </div>
-            <div className='character__information--row'>
-              <h3 className='character__title'>Origin</h3>
-              <small className='character__desciption'>
-                {character.origin.name}
-              </small>
-            </div>
-          </div>
+          ))}
         </div>
-      ))}
-    </div>
+      </section>
+    </>
   );
 };
 
