@@ -62,8 +62,8 @@
   width: 19rem;
   height: 24rem;
   border-radius: 0.25rem;
-  box-shadow: 4px 4px 16px 0 rgba(40, 44, 52, 0.5),
-    -4px -4px 16px 0px rgba(220, 220, 220, 0.25);
+  box-shadow: -4px -4px 12px 0px rgba(220, 220, 220, 0.25),
+    4px 4px 12px 0 rgba(40, 44, 52, 0.5);
   background-color: var(--secondary);
   overflow: hidden;
   cursor: pointer;
