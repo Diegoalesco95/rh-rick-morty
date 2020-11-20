@@ -9,20 +9,20 @@ const Card = ({ character, handlerClick, isFavorite }) => {
           width='300px'
           height='300px'
         />
+        <button
+          type='button'
+          onClick={() => handlerClick(character)}
+          className='save-favorite'>
+          {isFavorite ? (
+            <i className='fas fa-heart save-favorite--selected' />
+          ) : (
+            <i className='fas fa-heart save-favorite--unselected' />
+          )}
+        </button>
       </div>
       <div className='character__information'>
         <div className='character__information--heading'>
           <h2 className='character__title'>{character.name}</h2>
-          <button
-            type='button'
-            onClick={() => handlerClick(character)}
-            className='save-favorite'>
-            {isFavorite ? (
-              <i className='fas fa-heart' />
-            ) : (
-              <i className='far fa-heart' />
-            )}
-          </button>
         </div>
         <div className='character__information--row'>
           <h3 className='character__title'>Specie:</h3>

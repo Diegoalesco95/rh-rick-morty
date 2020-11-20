@@ -1,4 +1,4 @@
-import { useState, useEffect, useReducer } from 'react';
+import { useState, useEffect, useReducer, useMemo } from 'react';
 
 import { initialState, favoriteReducer } from '../context/FavoritesReducer';
 
@@ -8,6 +8,7 @@ const Characters = () => {
   const [characters, setCharacters] = useState([]);
   const [state, dispatch] = useReducer(favoriteReducer, initialState);
   const { favorites } = state;
+  const [search, setSearch] = useState('');
 
   useEffect(() => {
     fetch('https://rickandmortyapi.com/api/character/')
@@ -45,6 +46,18 @@ const Characters = () => {
     }
   };
 
+  const handleSearch = (e) => {
+    setSearch(e.target.value);
+  };
+
+  const filterCharacters = useMemo(
+    () =>
+      characters.filter((character) => {
+        return character.name.toLowerCase().includes(search.toLowerCase());
+      }),
+    [characters, search]
+  );
+
   return (
     <>
       <section className='Favorites'>
@@ -66,16 +79,27 @@ const Characters = () => {
       </section>
       <section className='Characters'>
         <h1>Characters</h1>
-        <div className='Characters-list'>
-          {characters.map((character) => (
-            <Card
-              character={character}
-              key={character.id}
-              handlerClick={handlerClick}
-              isFavorite={isFavorite(character)}
-            />
-          ))}
-        </div>
+        <input
+          type='text'
+          value={search}
+          onChange={handleSearch}
+          className='Characteres-search'
+          placeholder='Search character...'
+        />
+        {filterCharacters.length > 0 ? (
+          <div className='Characters-list'>
+            {filterCharacters.map((character) => (
+              <Card
+                character={character}
+                key={character.id}
+                handlerClick={handlerClick}
+                isFavorite={isFavorite(character)}
+              />
+            ))}
+          </div>
+        ) : (
+          <p>No search results</p>
+        )}
       </section>
     </>
   );
