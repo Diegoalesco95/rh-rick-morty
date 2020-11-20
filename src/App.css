@@ -1,3 +1,8 @@
+:root {
+  --primary: #282c34;
+  --secondary: #e6e6e6;
+}
+
 .App {
   text-align: center;
 }
@@ -14,14 +19,113 @@
 }
 
 .App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+  position: relative;
+  border-bottom: 1px solid;
+  padding-bottom: 1rem;
+  min-height: 20vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+}
+
+.dark {
+  color: var(--secondary);
+  background-color: var(--primary);
+}
+
+.light {
+  color: var(--primary);
+  background-color: var(--secondary);
+}
+
+.button-mode {
+  position: absolute;
+  bottom: -1rem;
+  padding: 0.5rem;
+  border-radius: 0.25rem;
+  border: none;
+}
+
+.Characters {
+  margin: 0 auto;
+  padding: 2rem 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  justify-items: center;
+}
+
+.character {
+  position: relative;
+  width: 19rem;
+  height: 24rem;
+  border-radius: 0.25rem;
+  box-shadow: 4px 4px 16px 0 rgba(40, 44, 52, 0.5),
+    -4px -4px 16px 0px rgba(220, 220, 220, 0.25);
+  background-color: var(--secondary);
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.character__image img {
+  width: 17rem;
+  padding: 1rem 1rem 0;
+  object-fit: cover;
+  transition: all 300ms ease-in-out;
+}
+
+.character__information {
+  position: absolute;
+  bottom: 0;
+  z-index: 10;
+  width: 100%;
+  padding: 1rem 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  color: var(--primary);
+  background-color: var(--secondary);
+  border-radius: 0 0 0.5rem 0.5rem;
+  transform: translateY(90px);
+  transition: all 300ms ease-in-out;
+}
+
+.character:hover .character__information {
+  transform: translateY(0);
+}
+
+.character:hover .character__image img {
+  transform: scale(1.25);
+}
+
+.character__information--heading,
+.character__information--row {
+  width: 90%;
+  display: flex;
+}
+
+.character__information--heading {
+  margin-bottom: 1rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.character__information--heading h2 {
+  margin: 0;
+}
+
+.character__information--row {
+  margin: 0 auto;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.character__information--row h3 {
+  margin: 0;
 }
 
 .App-link {
@@ -34,5 +138,21 @@
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+@media (min-width: 768px) {
+  .Characters {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .character {
+    width: 20rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .Characters {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
