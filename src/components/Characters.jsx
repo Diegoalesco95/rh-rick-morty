@@ -1,14 +1,25 @@
-import { useState, useEffect, useReducer, useMemo } from 'react';
+import {
+  useState,
+  useEffect,
+  useContext,
+  useReducer,
+  useMemo,
+  useRef
+} from 'react';
 
 import { initialState, favoriteReducer } from '../context/FavoritesReducer';
 
+import ThemeContext from '../context/ThemeContext';
 import Card from './Card';
 
 const Characters = () => {
+  const { theme } = useContext(ThemeContext);
   const [characters, setCharacters] = useState([]);
   const [state, dispatch] = useReducer(favoriteReducer, initialState);
-  const { favorites } = state;
   const [search, setSearch] = useState('');
+  const searchInput = useRef(null);
+
+  const { favorites } = state;
 
   useEffect(() => {
     fetch('https://rickandmortyapi.com/api/character/')
@@ -46,8 +57,8 @@ const Characters = () => {
     }
   };
 
-  const handleSearch = (e) => {
-    setSearch(e.target.value);
+  const handleSearch = () => {
+    setSearch(searchInput.current.value);
   };
 
   const filterCharacters = useMemo(
@@ -83,8 +94,9 @@ const Characters = () => {
           type='text'
           value={search}
           onChange={handleSearch}
-          className='Characteres-search'
+          className={`Characteres-search ${theme ? 'dark' : 'light'}`}
           placeholder='Search character...'
+          ref={searchInput}
         />
         {filterCharacters.length > 0 ? (
           <div className='Characters-list'>
