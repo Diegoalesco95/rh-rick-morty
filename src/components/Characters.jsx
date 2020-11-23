@@ -1,6 +1,5 @@
 import {
   useState,
-  useEffect,
   useContext,
   useReducer,
   useMemo,
@@ -8,26 +7,23 @@ import {
   useCallback
 } from 'react';
 
-import { initialState, favoriteReducer } from '../context/FavoritesReducer';
+import useCharacters from '../hooks/useCharacters';
 
+import { initialState, favoriteReducer } from '../context/FavoritesReducer';
 import ThemeContext from '../context/ThemeContext';
 import Card from './Card';
 import Search from './Search';
 
+const API = 'https://rickandmortyapi.com/api/character/';
+
 const Characters = () => {
   const { theme } = useContext(ThemeContext);
-  const [characters, setCharacters] = useState([]);
   const [state, dispatch] = useReducer(favoriteReducer, initialState);
   const [search, setSearch] = useState('');
   const searchInput = useRef(null);
-
   const { favorites } = state;
 
-  useEffect(() => {
-    fetch('https://rickandmortyapi.com/api/character/')
-      .then((response) => response.json())
-      .then((data) => setCharacters(data.results));
-  }, []);
+  const characters = useCharacters(API);
 
   const isFavorite = (favorite) => {
     return favorites.includes(favorite);
@@ -58,10 +54,6 @@ const Characters = () => {
       dispatch({ type: 'ADD_TO_FAVORITE', payload: favorite });
     }
   };
-
-  // const handleSearch = () => {
-  //   setSearch(searchInput.current.value);
-  // };
 
   const handleSearch = useCallback(() => {
     setSearch(searchInput.current.value);
