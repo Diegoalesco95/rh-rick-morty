@@ -4,13 +4,15 @@ import {
   useContext,
   useReducer,
   useMemo,
-  useRef
+  useRef,
+  useCallback
 } from 'react';
 
 import { initialState, favoriteReducer } from '../context/FavoritesReducer';
 
 import ThemeContext from '../context/ThemeContext';
 import Card from './Card';
+import Search from './Search';
 
 const Characters = () => {
   const { theme } = useContext(ThemeContext);
@@ -57,9 +59,13 @@ const Characters = () => {
     }
   };
 
-  const handleSearch = () => {
+  // const handleSearch = () => {
+  //   setSearch(searchInput.current.value);
+  // };
+
+  const handleSearch = useCallback(() => {
     setSearch(searchInput.current.value);
-  };
+  }, []);
 
   const filterCharacters = useMemo(
     () =>
@@ -90,13 +96,11 @@ const Characters = () => {
       </section>
       <section className='Characters'>
         <h1>Characters</h1>
-        <input
-          type='text'
-          value={search}
-          onChange={handleSearch}
-          className={`Characteres-search ${theme ? 'dark' : 'light'}`}
-          placeholder='Search character...'
-          ref={searchInput}
+        <Search
+          search={search}
+          searchInput={searchInput}
+          handleSearch={handleSearch}
+          theme={theme}
         />
         {filterCharacters.length > 0 ? (
           <div className='Characters-list'>

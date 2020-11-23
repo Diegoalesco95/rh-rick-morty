@@ -77,6 +77,11 @@
   justify-items: center;
 }
 
+.Favorites-list:nth-child(),
+.Characters-list:nth-child() {
+  animation-delay: 100ms;
+}
+
 .character {
   position: relative;
   width: 19rem;
@@ -87,6 +92,8 @@
   background-color: var(--secondary);
   overflow: hidden;
   cursor: pointer;
+  opacity: 0;
+  animation: Card-fade-in 300ms ease-in forwards;
 }
 
 .character:hover {
@@ -196,6 +203,15 @@
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+@keyframes Card-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
   }
 }
 
