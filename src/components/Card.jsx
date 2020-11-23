@@ -11,6 +11,7 @@ const Card = ({ character, handlerClick, isFavorite }) => {
         />
         <button
           type='button'
+          aria-label='Save Favorite'
           onClick={() => handlerClick(character)}
           className='save-favorite'>
           {isFavorite ? (
