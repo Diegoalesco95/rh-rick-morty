@@ -1,6 +1,6 @@
 # Custom Hooks - Rick & Morty
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) and hooks have been used.
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app) as a learning process of the [React Hooks](https://platzi.com/cursos/react-hooks/) course in Platzi.
 
 ![Home](.readme-static/home.jpg)
 
@@ -52,4 +52,3 @@ To learn React, check out the [React documentation](https://reactjs.org/).
 ## 📖 License
 
 [MIT](LICENSE) License
-
